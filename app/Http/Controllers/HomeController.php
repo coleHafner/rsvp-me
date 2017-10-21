@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Guest;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home', [
+            'guests' => Guest::withCount('rsvp')->orderBy('party_name', 'asc')->get()
+        ]);
     }
 }

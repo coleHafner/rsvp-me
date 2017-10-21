@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRsvpTable extends Migration
+class CreateRsvpsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,18 @@ class CreateRsvpTable extends Migration
      */
     public function up()
     {
-        Schema::create('rsvp', function (Blueprint $table) {
+        Schema::create('rsvps', function (Blueprint $table) {
             $table->increments('id');
 			$table->integer('guest_id')->unsigned();
-			$table->integer('total_adults');
-			$table->integer('total_children');
+			$table->integer('total_adults')->unsigned();
+            $table->integer('total_children')->unsigned();
+            $table->enum('registered_by', ['admin', 'guest'])->default('guest');
             $table->timestamps();
+
+            $table
+                ->foreign('guest_id')
+                ->references('id')
+                ->on('guests');
         });
     }
 
@@ -29,6 +35,6 @@ class CreateRsvpTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rsvp');
+        Schema::dropIfExists('rsvps');
     }
 }
