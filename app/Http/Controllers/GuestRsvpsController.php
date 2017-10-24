@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Guest;
+use App\Rsvp;
 
-class HomeController extends Controller
+class GuestRsvpsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,14 +18,14 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the guest list
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('home', [
-            'guests' => Guest::withCount('rsvp')->orderBy('party_name', 'asc')->get()
+        return view('guest-rsvps', [
+            'rsvps' => Rsvp::orderBy('guest_name', 'asc')->get()
         ]);
     }
 }

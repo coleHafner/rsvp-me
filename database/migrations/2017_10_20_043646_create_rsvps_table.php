@@ -18,7 +18,7 @@ class CreateRsvpsTable extends Migration
 			$table->integer('guest_id')->unsigned();
 			$table->integer('total_adults')->unsigned();
             $table->integer('total_children')->unsigned();
-            $table->enum('registered_by', ['admin', 'guest'])->default('guest');
+            $table->string('registered_by')->default('guest');
             $table->timestamps();
 
             $table

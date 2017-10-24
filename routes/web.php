@@ -17,4 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/guests', 'GuestsController@index')->name('guests');
+
+Route::get('/guest-rsvps', 'GuestRsvpsController@index')->name('rsvps');

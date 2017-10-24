@@ -46,21 +46,36 @@ class RsvpsController extends Controller
      */
     public function store(Request $request)
     {
+        $rsvp = null;
         $partyName = $request->input('partyName');
+
+        // find the guest by name
         $guest = Guest::where('party_name', $partyName)->first();
 
-        if (!$guest) {
-            return response('Guest with party name "' . $partyName . '" not found.', 500);
+        if ($guest) {
+            $rsvp = Rsvp::where('guest_id', $guest->id)->first();
+
+            // have they rsvp'ed already?
+            if (!$rsvp) {
+                $rsvp = new Rsvp;
+                $rsvp->guest_id = $guest->id;
+            }
         }
 
-        $rsvp = Rsvp::where('guest_id', $guest->id)->first();
+        // see if this person has rsvp'ed before, but wasn't a guest
+        if (!$rsvp) {
+            $rsvp = Rsvp::where('guest_name', $partyName)->first();
+        }
+
+        // no rsvp? just create a new one
         if (!$rsvp) {
             $rsvp = new Rsvp;
-            $rsvp->guest_id = $guest->id;
+            $rsvp->guest_name = $partyName;
         }
 
         $rsvp->total_adults = $request->input('totalAdults');
         $rsvp->total_children = $request->input('totalChildren');
+        $rsvp->phone = $request->input('phone');
         $rsvp->save();
         return response()->json($rsvp);
     }
