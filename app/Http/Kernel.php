@@ -40,6 +40,9 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+
+			// enable CORS https://github.com/barryvdh/laravel-cors
+			\Barryvdh\Cors\HandleCors::class,
         ],
     ];
 
